@@ -3,8 +3,6 @@ name: Node.js CI
 on:
   push:
     branches: [ develop ]
-  pull_request:
-    branches: [ develop ]
 
 jobs:
   build:
@@ -13,27 +11,36 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [16.x]
+        node-version: [ 16.x ]
 
     steps:
       - uses: actions/checkout@v3
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
-        with:
-          node-version: ${{ matrix.node-version }}
+      #- name: Use Node.js ${{ matrix.node-version }}
+      #  uses: actions/setup-node@v3
+      #  with:
+      #    node-version: ${{ matrix.node-version }}
       - run: npm ci
       - run: npm run build --if-present
       - run: npm test
-      - name: Login to Heroku Container registry
-        env:
-          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-        run: heroku container:login
-      - name: Build and push
-        env:
-          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-        run: heroku container:push -a mem-staging web
-      - name: Release
-        env:
-          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-        run: heroku container:release -a mem-staging web
+
+  deployment-staging:
+
+    needs:
+      - build
+
+    runs-on: ubuntu-latest
+
+    steps:
+     - name: Login to Heroku Container registry
+       env:
+         HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+       run: heroku container:login
+     - name: Build and push
+       env:
+         HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+       run: heroku container:push -a mem-staging web
+     - name: Release
+       env:
+         HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+       run: heroku container:release -a mem-staging web
 
