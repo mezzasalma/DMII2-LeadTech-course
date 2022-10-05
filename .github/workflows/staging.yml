@@ -2,7 +2,7 @@ name: Node.js CI
 
 on:
   push:
-    branches: [ main ]
+    branches: [ develop ]
 
 jobs:
   build:
@@ -20,7 +20,7 @@ jobs:
       - run: npm run build --if-present
       - run: npm test
 
-  deployment-prod:
+  deployment-staging:
     needs:
       - build
     runs-on: ubuntu-latest
@@ -31,7 +31,7 @@ jobs:
       - name: Login to Heroku Container registry
         run: heroku container:login
       - name: Build and push
-        run: heroku container:push -a mem-prod web
+        run: heroku container:push -a mem-staging web
       - name: Release
-        run: heroku container:release -a mem-prod web
+        run: heroku container:release -a mem-staging web
 
