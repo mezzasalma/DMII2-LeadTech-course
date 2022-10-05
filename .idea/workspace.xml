@@ -2,17 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="72169ef9-5eaa-4106-adef-b21a127e45ee" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.github/workflows/main.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/main.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.github/workflows/staging.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/staging.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/coverage/clover.xml" beforeDir="false" afterPath="$PROJECT_DIR$/coverage/clover.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/coverage/lcov-report/form_validator.js.html" beforeDir="false" afterPath="$PROJECT_DIR$/coverage/lcov-report/form_validator.js.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/coverage/lcov-report/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/coverage/lcov-report/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/coverage/lcov-report/jsonp_helper.js.html" beforeDir="false" afterPath="$PROJECT_DIR$/coverage/lcov-report/jsonp_helper.js.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/coverage/lcov-report/photo_model.js.html" beforeDir="false" afterPath="$PROJECT_DIR$/coverage/lcov-report/photo_model.js.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/coverage/lcov-report/route.js.html" beforeDir="false" afterPath="$PROJECT_DIR$/coverage/lcov-report/route.js.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/coverage/lcov-report/server.js.html" beforeDir="false" afterPath="$PROJECT_DIR$/coverage/lcov-report/server.js.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/Dockerfile" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Dockerfile" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -61,7 +51,7 @@
       <workItem from="1664952491087" duration="598000" />
       <workItem from="1664955239238" duration="318000" />
       <workItem from="1664955569711" duration="58000" />
-      <workItem from="1664955639431" duration="3983000" />
+      <workItem from="1664955639431" duration="4311000" />
     </task>
     <servers />
   </component>
