@@ -6,13 +6,10 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
-
     strategy:
       matrix:
-        node-version: [16.x]
-
+        node-version: [ 16.x ]
     steps:
       - uses: actions/checkout@v3
       - name: Use Node.js ${{ matrix.node-version }}
@@ -24,27 +21,17 @@ jobs:
       - run: npm test
 
   deployment-prod:
-
     needs:
       - build
-
     runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        node-version: [16.x ]
-
+    env:
+      HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
     steps:
+      - uses: actions/checkout@v3
       - name: Login to Heroku Container registry
-          env:
-            HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-          run: heroku container:login
+        run: heroku container:login
       - name: Build and push
-          env:
-            HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-          run: heroku container:push -a mem-main web
+        run: heroku container:push -a mem-prod web
       - name: Release
-        env:
-          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-        run: heroku container:release -a mem-main web
+        run: heroku container:release -a mem-prod web
 
