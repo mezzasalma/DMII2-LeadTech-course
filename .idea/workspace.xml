@@ -2,8 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="72169ef9-5eaa-4106-adef-b21a127e45ee" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.github/workflows/main.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/main.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.github/workflows/staging.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/staging.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/__tests__/app.test.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/__tests__/app.test.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/views/_header.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/_header.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -53,7 +54,7 @@
       <workItem from="1664952491087" duration="598000" />
       <workItem from="1664955239238" duration="318000" />
       <workItem from="1664955569711" duration="58000" />
-      <workItem from="1664955639431" duration="4993000" />
+      <workItem from="1664955639431" duration="5809000" />
     </task>
     <servers />
   </component>
