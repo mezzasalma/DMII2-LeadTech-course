@@ -4,7 +4,7 @@
 
       <label for="tags">Tags - a comma delimited list</label>
       <input type="text" class="form-control" id="tags" name="tags"
-        placeholder="california, sunset" value="<%= tagsParameter %>">
+             placeholder="california, sunset" value="<%= tagsParameter %>">
 
     </div>
     <div class="form-group">
@@ -13,10 +13,10 @@
 
         <% var tagmodes = [ { value: 'all' }, { value: 'any' } ] %>
         <% tagmodes.forEach(function (tagmode) { %>
-          <option value="<%= tagmode.value %>"
-            <%= tagmode.value == tagmodeParameter ? "selected" : "" %>>
-            <%= tagmode.value %>
-          </option>
+        <option value="<%= tagmode.value %>"
+        <%= tagmode.value == tagmodeParameter ? "selected" : "" %>>
+        <%= tagmode.value %>
+        </option>
         <% }) %>
 
       </select>
@@ -24,4 +24,14 @@
     </div>
     <button type="submit" class="btn btn-primary">Submit</button>
   </form>
+
+  <form role="form" method="post" action="/zip?tags=<%= tagsParameter %>">
+    <input type="hidden" value="<%= tagsParameter %>"/>
+    <button type="submit" class="btn btn-primary">Generate ZIP</button>
+  </form>
+
+  <% if (link) { %>
+  <a href="<%= link %>">Download zip</a>
+  <% } %>
+
 </div>

@@ -16,6 +16,7 @@ app.set('view engine', 'html');
 
 // load route
 require('./route')(app);
+require('./listen')(app);
 
 // server
 const port = process.env.PORT || 3000;
