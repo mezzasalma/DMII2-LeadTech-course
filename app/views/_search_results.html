@@ -1,26 +1,39 @@
 <hr>
 
 <div class="panel panel-default search-results">
-  <div class="panel-heading">
-    <h3 class="panel-title">Search Results</h3>
+
+  <div class="panel-heading well">
+    <div class="panel-group">
+      <h3 class="panel-title">Search Results</h3>
+    </div>
+    <div class="d-flex">
+      <button id="googleLogin" type="submit" class="btn btn-danger">Login with Google</button>
+
+      <form role="form" method="post" action="/zip?tags=<%= tagsParameter %>">
+        <input id="tags" type="hidden" value="<%= tagsParameter %>"/>
+        <button id="zipButton" type="submit" class="btn btn-primary">Generate ZIP</button>
+      </form>
+      <a id="downloadButton" href="<%= link %>" class="btn btn-primary">Download zip</a>
+    </div>
   </div>
+
   <div class="panel-body">
 
     <% if (photos.length) { %>
 
-      <ul>
-        <% photos.forEach(function (photo) { %>
-          <li class="list-unstyled">
-            <a href="<%= photo.media.b %>" class="thumbnail">
-              <img src="<%= photo.media.t %>" alt="Photo - <%= photo.title %>"
-                title="<%= photo.title %>">
-            </a>
-          </li>
-        <% }) %>
-      </ul>
+    <ul>
+      <% photos.forEach(function (photo) { %>
+      <li class="list-unstyled">
+        <a href="<%= photo.media.b %>" class="thumbnail">
+          <img src="<%= photo.media.t %>" alt="Photo - <%= photo.title %>"
+               title="<%= photo.title %>">
+        </a>
+      </li>
+      <% }) %>
+    </ul>
 
     <% } else { %>
-      <div class="alert alert-info"><strong>No results</strong></div>
+    <div class="alert alert-info"><strong>No results</strong></div>
     <% } %>
 
   </div>

@@ -5,6 +5,7 @@ const photoModel = require('./photo_model');
 const request = require('request');
 const ZipStream = require('zip-stream');
 const express = require('express');
+const firebaseDB = require("./firebaseDB");
 
 function makeid(length) {
   var result = '';
@@ -16,6 +17,8 @@ function makeid(length) {
   }
   return result;
 }
+
+const db = firebaseDB;
 
 listen = (app) => {
   let timeout = Number(60);
@@ -91,13 +94,17 @@ listen = (app) => {
         reject(err);
       });
       stream.on('finish', () => {
+        const ref = db.ref('mem/jobs/' + tags);
         resolve('Ok :' + filename);
+        ref.set(filename)
+        /*
         let jobs = app.get('jobs');
         if (!jobs) {
           jobs = []
         }
-        jobs[tags]=filename;
+        jobs[tags] = filename;
         app.set('jobs', jobs);
+         */
         console.log('sendToStorage end :' + filename);
       });
       //stream.end();

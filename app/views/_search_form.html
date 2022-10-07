@@ -1,12 +1,12 @@
 <div class="well">
   <form role="form" action="/">
-    <div class="form-group">
 
+    <div class="form-group">
       <label for="tags">Tags - a comma delimited list</label>
       <input type="text" class="form-control" id="tags" name="tags"
              placeholder="california, sunset" value="<%= tagsParameter %>">
-
     </div>
+
     <div class="form-group">
       <label for="tagmode">Tag Mode</label>
       <select class="form-control" id="tagmode" name="tagmode">
@@ -18,20 +18,9 @@
         <%= tagmode.value %>
         </option>
         <% }) %>
-
       </select>
-
     </div>
+
     <button type="submit" class="btn btn-primary">Submit</button>
   </form>
-
-  <form role="form" method="post" action="/zip?tags=<%= tagsParameter %>">
-    <input type="hidden" value="<%= tagsParameter %>"/>
-    <button type="submit" class="btn btn-primary">Generate ZIP</button>
-  </form>
-
-  <% if (link) { %>
-  <a href="<%= link %>">Download zip</a>
-  <% } %>
-
 </div>

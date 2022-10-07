@@ -2,14 +2,16 @@ require('dotenv').config();
 const formValidator = require('./form_validator');
 const photoModel = require('./photo_model');
 const {PubSub} = require('@google-cloud/pubsub');
-const { Storage } = require('@google-cloud/storage');
+const {Storage} = require('@google-cloud/storage');
 const moment = require("moment");
-const {doc} = require("prettier");
+const firebaseDB = require("./firebaseDB");
+
+const db = firebaseDB;
 
 function route(app) {
   let storage = new Storage();
 
-  app.get('/', async(req, res) => {
+  app.get('/', (req, res) => {
     const tags = req.query.tags;
     const tagmode = req.query.tagmode;
 
@@ -22,22 +24,25 @@ function route(app) {
       link: ''
     };
 
-    let jobs = app.get('jobs')
-    if (jobs) {
-      let found = Object.keys(jobs).find(key => key === tags)
-      if(found) {
+    if (tags) {
+      const ref = db.ref('mem/jobs/' + tags);
+      ref.on('value', async (snapshot) => {
         const options = {
           action: 'read',
           expires: moment().add(2, 'days').unix() * 1000
         };
-        const signedUrls = await storage
-          .bucket('dmii2022bucket')
-          .file(jobs[found])
-          .getSignedUrl(options);
-
-        ejsLocalVariables.link = signedUrls
-      }
+        if(snapshot.val()) {
+          const signedUrls = await storage
+            .bucket('dmii2022bucket')
+            .file(snapshot.val())
+            .getSignedUrl(options);
+          ejsLocalVariables.link = signedUrls
+        }
+      }, (errorObject) => {
+        console.log('The read failed: ' + errorObject.name);
+      });
     }
+
 
     // if no input params are passed in then render the view with out querying the api
     if (!tags && !tagmode) {
