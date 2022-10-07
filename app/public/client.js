@@ -1,5 +1,5 @@
-import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.10.0/firebase-app.js'
-import { getDatabase, onValue, ref } from 'https://www.gstatic.com/firebasejs/9.10.0/firebase-database.js';
+import {initializeApp} from 'https://www.gstatic.com/firebasejs/9.10.0/firebase-app.js'
+import {getDatabase, onValue, ref} from 'https://www.gstatic.com/firebasejs/9.10.0/firebase-database.js';
 import {
   GoogleAuthProvider,
   signInWithPopup,
@@ -21,13 +21,42 @@ const provider = new GoogleAuthProvider();
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth();
+
 setPersistence(auth, browserSessionPersistence).then(() => {
-  if (auth.currentUser)  {
-    loginOk()
+  if (auth.currentUser) {
+    isLogged()
   } else {
     googleButton.style.display = 'inline-block'
   }
 })
+const db = getDatabase();
+
+const googleButton = document.querySelector('#googleLogin')
+const zipButton = document.querySelector('#zipButton')
+const downloadButton = document.querySelector('#downloadButton')
+const tagsInput = document.querySelector('#tags')
+downloadButton.style.display = 'none'
+zipButton.style.display = 'none'
+googleButton.style.display = 'none'
+
+const updateButton = (data) => {
+  if (tagsInput.value) {
+    const tagsRef = ref(db, 'mem/jobs/' + tagsInput.value)
+    onValue(tagsRef, async (snapshot) => {
+      downloadButton.style.display = 'none'
+      downloadButton.href = '';
+
+      if (snapshot.val()) {
+        const res = await fetch('/getZip?filename=' + snapshot.val())
+        const link = await res.text()
+        if (link) {
+          downloadButton.style.display = 'inline-block'
+          downloadButton.href = link;
+        }
+      }
+    })
+  }
+}
 
 const googleLogin = () => {
   signInWithPopup(auth, provider)
@@ -35,7 +64,7 @@ const googleLogin = () => {
       const credential = GoogleAuthProvider.credentialFromResult(result);
       const token = credential.accessToken;
       const user = result.user;
-      loginOk()
+      isLogged()
     }).catch((error) => {
     const errorCode = error.code;
     const errorMessage = error.message;
@@ -46,45 +75,12 @@ const googleLogin = () => {
   });
 }
 
-const googleButton = document.querySelector('#googleLogin')
-const zipButton = document.querySelector('#zipButton')
-const downloadButton = document.querySelector('#downloadButton')
-const tagsInput =  document.querySelector('#tags')
-downloadButton.style.display = 'none'
-zipButton.style.display = 'none'
-googleButton.style.display = 'none'
-
-async function loginOk() {
+const isLogged = () => {
   googleButton.remove()
   zipButton.style.display = 'inline-block'
-  const db = getDatabase()
-  if(tagsInput.value) {
-    const tagsRef = ref(db, 'mem/jobs/' + tagsInput.value)
-    onValue(tagsRef, snapshot => {
-      updateButton(snapshot.val())
-    })
-  }
+  updateButton()
 }
 
-function updateButton(data) {
-  if (data) {
-    downloadButton.style.display = 'inline-block'
-    downloadButton.href = data;
-  } else {
-    downloadButton.style.display = 'none'
-    downloadButton.href = '';
-  }
-}
+zipButton.addEventListener('click', updateButton)
 
-zipButton.addEventListener('click', () => {
-  if(tagsInput.value) {
-    const tagsRef = ref(database, 'mem/jobs/' + tagsInput.value)
-    onValue(tagsRef, snapshot => {
-      console.log(snapshot.val())
-    })
-  }
-})
-
-googleButton.addEventListener('click', () => {
-  googleLogin()
-})
+googleButton.addEventListener('click', googleLogin)

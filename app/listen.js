@@ -6,6 +6,7 @@ const request = require('request');
 const ZipStream = require('zip-stream');
 const express = require('express');
 const firebaseDB = require("./firebaseDB");
+const moment = require("moment");
 
 function makeid(length) {
   var result = '';
@@ -97,14 +98,6 @@ listen = (app) => {
         const ref = db.ref('mem/jobs/' + tags);
         resolve('Ok :' + filename);
         ref.set(filename)
-        /*
-        let jobs = app.get('jobs');
-        if (!jobs) {
-          jobs = []
-        }
-        jobs[tags] = filename;
-        app.set('jobs', jobs);
-         */
         console.log('sendToStorage end :' + filename);
       });
       //stream.end();

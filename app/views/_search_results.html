@@ -9,7 +9,7 @@
     <div class="d-flex">
       <button id="googleLogin" type="submit" class="btn btn-danger">Login with Google</button>
 
-      <form role="form" method="post" action="/zip?tags=<%= tagsParameter %>">
+      <form role="form" method="post" action="/createZip?tags=<%= tagsParameter %>">
         <input id="tags" type="hidden" value="<%= tagsParameter %>"/>
         <button id="zipButton" type="submit" class="btn btn-primary">Generate ZIP</button>
       </form>

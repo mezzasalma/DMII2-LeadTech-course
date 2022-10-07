@@ -7,36 +7,36 @@ const moment = require("moment");
 const firebaseDB = require("./firebaseDB");
 
 const db = firebaseDB;
+const options = {
+  action: 'read',
+  expires: moment().add(2, 'days').unix() * 1000
+};
+
+const ejsLocalVariables = {
+  tagsParameter: '',
+  tagmodeParameter: '',
+  photos: [],
+  searchResults: false,
+  invalidParameters: false,
+  link: ''
+};
 
 function route(app) {
   let storage = new Storage();
 
   app.get('/', (req, res) => {
-    const tags = req.query.tags;
-    const tagmode = req.query.tagmode;
-
-    const ejsLocalVariables = {
-      tagsParameter: tags || '',
-      tagmodeParameter: tagmode || '',
-      photos: [],
-      searchResults: false,
-      invalidParameters: false,
-      link: ''
-    };
+    const tags = ejsLocalVariables.tagsParameter = req.query.tags;
+    const tagmode = ejsLocalVariables.tagmodeParameter = req.query.tagmode;
 
     if (tags) {
       const ref = db.ref('mem/jobs/' + tags);
       ref.on('value', async (snapshot) => {
-        const options = {
-          action: 'read',
-          expires: moment().add(2, 'days').unix() * 1000
-        };
-        if(snapshot.val()) {
+        if (snapshot.val()) {
           const signedUrls = await storage
             .bucket('dmii2022bucket')
             .file(snapshot.val())
             .getSignedUrl(options);
-          ejsLocalVariables.link = signedUrls
+          ejsLocalVariables.link = signedUrls;
         }
       }, (errorObject) => {
         console.log('The read failed: ' + errorObject.name);
@@ -68,18 +68,9 @@ function route(app) {
       });
   });
 
-  app.post('/zip', async (req, res) => {
-    const tags = req.query.tags;
-    const tagmode = 'all'
-
-    const ejsLocalVariables = {
-      tagsParameter: tags || '',
-      tagmodeParameter: tagmode || '',
-      photos: [],
-      searchResults: false,
-      invalidParameters: false,
-      link: ''
-    };
+  app.post('/createZip', async (req, res) => {
+    const tags = ejsLocalVariables.tagsParameter = req.query.tags;
+    const tagmode = ejsLocalVariables.tagmodeParameter = 'all';
 
     // if no input params are passed in then render the view with out querying the api
     if (!tags && !tagmode) {
@@ -115,6 +106,18 @@ function route(app) {
       .catch(error => {
         return res.status(500).send({error});
       });
+  })
+
+  app.get('/getZip', async (req, res) => {
+    let filename = req.query.filename
+    if (filename) {
+      const signedUrls = await storage
+        .bucket('dmii2022bucket')
+        .file(filename)
+        .getSignedUrl(options);
+      ejsLocalVariables.link = signedUrls;
+      res.send(signedUrls[0]);
+    }
   })
 }
 
